@@ -25,7 +25,8 @@ class CreateProdutosTable extends Migration
             $table->string("tipo_de_peso");
             $table->string("fabricante");
             $table->float("preco");
-
+            $table->foreignId("categoria_id")->constrained();
+            $table->foreignId("user_id")->constrained();
         });
     }
 

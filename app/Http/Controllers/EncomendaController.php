@@ -3,22 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cliente;
-use App\Models\Produto;
+use App\Models\Encomenda;
 use App\Models\Promocao;
-use App\Models\Venda;
 use Illuminate\Http\Request;
 
-class VendaController extends Controller
+class EncomendaController extends Controller
 {
     private function validaCliente($cliente,$promocao){
         $status = false;
-        if(count(Venda::all()) > 0){
-            foreach (Venda::all() as $venda){
-                if($venda->cliente_id == $cliente->id && $venda->promocao_id == $promocao->id){
+        if(count(Encomenda::all()) > 0){
+            foreach (encomenda::all() as $encomenda){
+                if($encomenda->cliente_id == $cliente->id && $encomenda->promocao_id == $promocao->id){
                     $status = false;
-                }else if($venda->cliente_id == $cliente->id && $venda->promocao_id != $promocao->id){
+                }else if($encomenda->cliente_id == $cliente->id && $encomenda->promocao_id != $promocao->id){
                     $status = true;
-                }else if($venda->cliente_id != $cliente->id){
+                }else if($encomenda->cliente_id != $cliente->id){
                     $status = true;
                 }
             }
@@ -41,13 +40,14 @@ class VendaController extends Controller
 
     public function index()
     {
-        $venda = Venda::all();
-        if(count($venda) > 0){
-            return Controller::retornarConteudo(null,$venda,200);
+        $encomendas = Encomenda::all();
+        if(count($encomendas) > 0){
+            return Controller::retornarConteudo(null,$encomendas,200);
         }else{
-            return Controller::retornarConteudo('Nenhuma venda fora efetuada no momento!',null,406);
+            return Controller::retornarConteudo('Não há encomendas registradas',null,500);
         }
     }
+
 
     public function store(Request $request)
     {
@@ -55,11 +55,13 @@ class VendaController extends Controller
         $promocao = Promocao::where('codigo',$request->codigo_promocao)->get()->first();
         $cliente = Cliente::where('cpf',$request->cpf_cliente)->get()->first();
         $attrs = $request->validate([
-           'codigos' => 'array|required',
+            'codigos' => 'array|required',
             'nomes' => 'array|required',
             'precos' => 'array|required',
             'quantidade_itens' => 'array|required',
             'total' => 'numeric|required',
+            'data_de_pagamento' => 'date|required',
+            'data_de_recebimento' => 'date|required'
         ]);
         if($promocao != null && $cliente != null){
             if(!isset($promocao)){
@@ -71,21 +73,23 @@ class VendaController extends Controller
             }else{
                 if($this->validaCliente($cliente,$promocao)){
                     $result = $this->verificaValorAplicacao($promocao->como_aplicar,$attrs['total'],$promocao->valor);
-                    $venda = Venda::create([
+                    $encomenda = Encomenda::create([
                         'codigos' => $attrs['codigos'],
                         'nomes' => $attrs['nomes'],
                         'precos' => $attrs['precos'],
                         'quantidade_itens' => $attrs['quantidade_itens'],
                         'total' => $result,
                         'nota_fiscal' => rand(000000001, 999999999),
+                        'data_de_recebimento' => $attrs['data_de_recebimento'],
+                        'data_de_pagamento' => $attrs['data_de_recebimento'],
                         'user_id' => auth()->user()->id,
                         'promocao_id' => $promocao->id,
                         'cliente_id' => $cliente->id
                     ]);
-                    if($venda){
-                        return Controller::retornarConteudo('Venda realizada com sucesso',$venda,200);
+                    if($encomenda){
+                        return Controller::retornarConteudo('Encomenda realizada com sucesso',$encomenda,200);
                     }else{
-                        return Controller::retornarConteudo('Erro na efetuação da venda',$venda,500);
+                        return Controller::retornarConteudo('Erro na efetuação da encomenda',$encomenda,500);
                     }
                 }else{
                     return Controller::retornarConteudo('Promoção não pode ser aplicada ao mesmo cliente',null,406);
@@ -93,66 +97,90 @@ class VendaController extends Controller
             }
         }else if($promocao != null){
             $result = $this->verificaValorAplicacao($promocao->como_aplicar,$attrs['total'],$promocao->valor);
-            $venda = Venda::create([
+            $encomenda = Encomenda::create([
                 'codigos' => $attrs['codigos'],
                 'nomes' => $attrs['nomes'],
                 'precos' => $attrs['precos'],
                 'quantidade_itens' => $attrs['quantidade_itens'],
                 'total' => $result,
                 'nota_fiscal' => rand(000000001, 999999999),
+                'data_de_recebimento' => $attrs['data_de_recebimento'],
+                'data_de_pagamento' => $attrs['data_de_recebimento'],
                 'user_id' => auth()->user()->id,
                 'promocao_id' => $promocao->id,
             ]);
-            if($venda){
-                return Controller::retornarConteudo('Venda realizada com sucesso',$venda,200);
+            if($encomenda){
+                return Controller::retornarConteudo('Encomenda realizada com sucesso',$encomenda,200);
             }else{
-                return Controller::retornarConteudo('Erro na efetuação da venda',$venda,500);
+                return Controller::retornarConteudo('Erro na efetuação da encomenda',$encomenda,500);
             }
         }else if($cliente != null){
-            $venda = Venda::create([
+            $encomenda = Encomenda::create([
                 'codigos' => $attrs['codigos'],
                 'nomes' => $attrs['nomes'],
                 'precos' => $attrs['precos'],
                 'quantidade_itens' => $attrs['quantidade_itens'],
                 'total' => $attrs['total'],
                 'nota_fiscal' => rand(000000001, 999999999),
+                'data_de_recebimento' => $attrs['data_de_recebimento'],
+                'data_de_pagamento' => $attrs['data_de_recebimento'],
                 'user_id' => auth()->user()->id,
                 'cliente_id' => $cliente->id
             ]);
-            if($venda){
-                return Controller::retornarConteudo('Venda realizada com sucesso',$venda,200);
+            if($encomenda){
+                return Controller::retornarConteudo('Encomenda realizada com sucesso',$encomenda,200);
             }else{
-                return Controller::retornarConteudo('Erro na efetuação da venda',$venda,500);
+                return Controller::retornarConteudo('Erro na efetuação da encomenda',$encomenda,500);
             }
         }else{
-            $venda = Venda::create([
+            $encomenda = Encomenda::create([
                 'codigos' => $attrs['codigos'],
                 'nomes' => $attrs['nomes'],
                 'precos' => $attrs['precos'],
                 'quantidade_itens' => $attrs['quantidade_itens'],
                 'total' => $attrs['total'],
                 'nota_fiscal' => rand(000000001, 999999999),
+                'data_de_recebimento' => $attrs['data_de_recebimento'],
+                'data_de_pagamento' => $attrs['data_de_recebimento'],
                 'user_id' => auth()->user()->id,
             ]);
-            if($venda){
-                return Controller::retornarConteudo('Venda realizada com sucesso',$venda,200);
+            if($encomenda){
+                return Controller::retornarConteudo('Encomenda realizada com sucesso',$encomenda,200);
             }else{
-                return Controller::retornarConteudo('Erro na efetuação da venda',$venda,500);
+                return Controller::retornarConteudo('Erro na efetuação da encomenda',$encomenda,500);
             }
         }
     }
 
     public function show($id)
     {
-        $venda = Venda::find($id);
-        if($venda){
-            return Controller::retornarConteudo(null,$venda,200);
+        $encomenda = Encomenda::find($id);
+        if(isset($encomenda)){
+            return Controller::retornarConteudo(null,$encomenda,200);
         }else{
-            return Controller::retornarConteudo('Não foi possível encontrar esta venda',null,200);
+            return Controller::retornarConteudo("Não foi possível localizar a encomenda",null,406);
         }
+
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request, $id)
     {
         //

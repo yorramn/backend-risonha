@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -13,14 +14,14 @@ class UserController extends Controller
     {
         return response([
             'user' => User::all()
-        ],200);
+        ], 200);
     }
 
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -67,33 +68,20 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $user = User::find($id);
+        if (isset($user)) {
+            return Controller::retornarConteudo('Token: ' . $user->token, $user, 200);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -104,11 +92,33 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         //
+    }
+
+    public function defineCargo(Request $request)
+    {
+        $user = User::where('name', $request->user_name)->get()->first();
+        return $this->escolherCargo($user, $request->id_cargo);
+    }
+
+    private function escolherCargo($user, $idCargo)
+    {
+        $usuario = $user;
+        $cargo = Role::findById($idCargo);
+
+
+        if (!isset($usuario)) {
+            return Controller::retornarConteudo('Usuário não encontrado!', null, 406);
+        } else if (!isset($cargo)) {
+            return Controller::retornarConteudo('Cargo não encontrado!', null, 406);
+        } else {
+            $usuario->assignRole($cargo);
+            return Controller::retornarConteudo('Cargo de' . $cargo->name . ' atribuido ao usuario ' . $usuario->name, $usuario, 200);
+        }
     }
 }
