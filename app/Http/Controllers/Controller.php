@@ -11,7 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     protected static function retornarConteudo($mensagem = null, $objeto = null, $status){
-        if($objeto != null && $mensagem != null){
+        /*if($objeto != null && $mensagem != null){
             return response([
                 'message' => $mensagem,
                 'objeto' => $objeto,
@@ -28,6 +28,10 @@ class Controller extends BaseController
             return response([
                 'message' => 'Erro de requisição!',
             ],402);
-        }
+        }*/
+        return response([
+            'message' => $mensagem,
+            'objeto' => $objeto,
+        ],$status);
     }
 }

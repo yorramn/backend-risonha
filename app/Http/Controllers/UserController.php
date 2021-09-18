@@ -100,11 +100,11 @@ class UserController extends Controller
         //
     }
 
-    public function defineCargo(Request $request)
-    {
-        $user = User::where('name', $request->user_name)->get()->first();
-        return $this->escolherCargo($user, $request->id_cargo);
-    }
+        public function defineCargo(Request $request)
+        {
+            $user = User::where('name', $request->user_name)->get()->first();
+            return $this->escolherCargo($user, $request->id_cargo);
+        }
 
     private function escolherCargo($user, $idCargo)
     {
