@@ -32,7 +32,7 @@ Route::post('/store', [UserController::class, 'store'])->name('register');
 
 
 
-Route::group(['prefix' => '/role','middleware' => ['role:admin']], function () {
+Route::group(['prefix' => '/role'], function () {
     Route::post('/defineCargo', [UserController::class, 'defineCargo']);
     Route::get('/', [RoleController::class, 'index']);
     Route::get('/{id}', [RoleController::class, 'show']);
@@ -40,7 +40,7 @@ Route::group(['prefix' => '/role','middleware' => ['role:admin']], function () {
     Route::put('/{id}', [RoleController::class, 'update']);
     Route::delete('/{id}', [RoleController::class, 'destroy']);
 });
-Route::group(['prefix' => '/permission','middleware' => ['role:admin']], function () {
+Route::group(['prefix' => '/permission'], function () {
     Route::get('/', [PermissionController::class, 'index']);
     Route::get('/{id}', [PermissionController::class, 'show']);
     Route::post('/', [PermissionController::class, 'store']);

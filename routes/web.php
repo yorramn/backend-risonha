@@ -14,8 +14,8 @@ use App\Http\Controllers\UserController;
 */
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');/*
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/login', function(){
     return view('auth.login');
-})->name('login');*/
+})->name('login');
 

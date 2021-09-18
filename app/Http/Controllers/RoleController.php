@@ -56,7 +56,6 @@ class RoleController extends Controller
                 'name' => 'string',
                 'permissions' => 'array'
             ]);
-            $role->name = $attrs['name'];
             $role->syncPermissions($attrs['permissions']);
             if($role->save()){
                 return Controller::retornarConteudo('Cargo atualizado com sucesso',$role,200);
