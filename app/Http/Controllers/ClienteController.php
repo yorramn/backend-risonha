@@ -13,7 +13,7 @@ class ClienteController extends Controller
         if(count($cliente) > 0){
             return Controller::retornarConteudo(null,$cliente,200);
         }else{
-            return Controller::retornarConteudo('Não há clientes cadastrados',null,406);
+            return Controller::retornarConteudo('Não há clientes cadastrados',null,200);
         }
     }
 
