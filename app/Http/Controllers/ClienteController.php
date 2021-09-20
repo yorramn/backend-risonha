@@ -52,7 +52,7 @@ class ClienteController extends Controller
 
     public function show($id)
     {
-        $cliente = Cliente::where('cpf',$id)->get();
+        $cliente = Cliente::where('cpf',$id)->get()->first();
         if(count($cliente) > 0){
             return Controller::retornarConteudo(null,$cliente,200);
         }else{
