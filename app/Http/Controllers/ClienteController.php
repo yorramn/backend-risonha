@@ -24,12 +24,13 @@ class ClienteController extends Controller
             'nome' => 'string|required',
             'cpf' => 'string|required',
             'email' => 'email|required',
-            'cep' => 'required',
+            'cep' => 'string|required',
             'logradouro' => 'string|required',
-            'numero' => 'required',
+            'numero' => 'integer|required',
             'cidade' => 'string|required',
-            'telefone' => 'required',
+            'telefone' => 'integer|required',
         ]);
+
         $cliente = Cliente::create([
             'nome' => $attrs['nome'],
             'cpf' => $attrs['cpf'],
@@ -46,6 +47,7 @@ class ClienteController extends Controller
         }else{
             return Controller::retornarConteudo('Erro ao cadastrar usuário!',null,406);
         }
+
     }
 
     public function show($id)

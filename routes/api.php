@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => '/cliente'], function () {
         Route::get('/', [ClienteController::class, 'index'])->middleware('permission:mostrar clientes');
         Route::get('/{id}', [ClienteController::class, 'show'])->middleware('permission:mostrar cliente');
-        Route::post('/store', [ClienteController::class, 'store'])->middleware('permission:cadastrar cliente');
+        Route::post('/', [ClienteController::class, 'store'])->middleware('permission:cadastrar cliente');
         Route::put('/{id}', [ClienteController::class, 'update'])->middleware('permission:editar cliente');
         Route::delete('/{id}', [ClienteController::class, 'destroy'])->middleware('permission:excluir cliente');
     });
@@ -98,7 +98,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/', [EncomendaController::class, 'store'])->middleware('permission:cadastrar encomendas');
         Route::put('/{id}', [EncomendaController::class, 'update'])->middleware('permission:atualizar encomendas');
     });
-
 
 });
 
