@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    protected static function retornarConteudo($mensagem = null, $objeto = null, $status){
+    protected static function retornarConteudo($mensagem = null, $objeto = null, $status = null){
         /*if($objeto != null && $mensagem != null){
             return response([
                 'message' => $mensagem,

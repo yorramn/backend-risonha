@@ -52,8 +52,8 @@ class ClienteController extends Controller
 
     public function show($id)
     {
-        $cliente = Cliente::where('cpf',$id)->get()->first();
-        if(count($cliente) > 0){
+        $cliente = Cliente::find($id);
+        if($cliente){
             return Controller::retornarConteudo(null,$cliente,200);
         }else{
             return Controller::retornarConteudo('Não há ninguém com este cpf cadastrado',null,200);
