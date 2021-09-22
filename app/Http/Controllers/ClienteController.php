@@ -64,17 +64,7 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::find($id);
         if(isset($cliente)){
-            $res = $cliente->update([
-                'nome' => $request->nome,
-                'cpf' => $request->cpf,
-                'email' => $request->email,
-                'cep' => $request->cep,
-                'logradouro' => $request->logradouro,
-                'numero' => $request->numero,
-                'cidade' => $request->cidade,
-                'telefone' => $request->telefone,
-                'user_id' => auth()->user()->id
-            ]);
+            $res = $cliente->update($request->all());
             if($res){
                 return Controller::retornarConteudo('Dados de '.$request->nome.' atualizados com sucesso!',$cliente,200);
             }
