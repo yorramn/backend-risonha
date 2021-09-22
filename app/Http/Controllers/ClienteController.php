@@ -73,6 +73,18 @@ class ClienteController extends Controller
         }
     }
 
+    public function atualizar(Request $request, $id)
+    {
+        $cliente = Cliente::find($id);
+        if(isset($cliente)){
+            $res = $cliente->update($request->all());
+            if($res){
+                return Controller::retornarConteudo('Dados de '.$request->nome.' atualizados com sucesso!',$cliente,200);
+            }
+        }else{
+            return Controller::retornarConteudo('Erro ao atualizar os dados de '.$cliente->nome,null,406);
+        }
+    }
     public function destroy($id)
     {
         $cliente = Cliente::find($id);
