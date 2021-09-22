@@ -73,9 +73,8 @@ class ClienteController extends Controller
                 'numero' => 'integer',
                 'cidade' => 'string',
                 'telefone' => 'integer',
-
             ]);
-            $cliente->update([
+            $res = $cliente->update([
                 'nome' => $attrs['nome'],
                 'cpf' => $attrs['cpf'],
                 'email' => $attrs['email'],
@@ -86,7 +85,9 @@ class ClienteController extends Controller
                 'telefone' => $attrs['telefone'],
                 'user_id' => auth()->user()->id
             ]);
-            return Controller::retornarConteudo('Dados de '.$cliente->nome.' atualizados com sucesso!',$cliente,200);
+            if($res){
+                return Controller::retornarConteudo('Dados de '.$attrs['nome'].' atualizados com sucesso!',$cliente,200);
+            }
         }else{
             return Controller::retornarConteudo('Erro ao atualizar os dados de '.$cliente->nome,null,406);
         }
