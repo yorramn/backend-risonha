@@ -64,29 +64,19 @@ class ClienteController extends Controller
     {
         $cliente = Cliente::find($id);
         if(isset($cliente)){
-            $attrs = $request->validate([
-                'nome' => 'string',
-                'cpf' => 'string',
-                'email' => 'email',
-                'cep' => 'string',
-                'logradouro' => 'string',
-                'numero' => 'integer',
-                'cidade' => 'string',
-                'telefone' => 'integer',
-            ]);
             $res = $cliente->update([
-                'nome' => $attrs['nome'],
-                'cpf' => $attrs['cpf'],
-                'email' => $attrs['email'],
-                'cep' => $attrs['cep'],
-                'logradouro' => $attrs['logradouro'],
-                'numero' => $attrs['numero'],
-                'cidade' => $attrs['cidade'],
-                'telefone' => $attrs['telefone'],
+                'nome' => $request->nome,
+                'cpf' => $request->cpf,
+                'email' => $request->email,
+                'cep' => $request->cep,
+                'logradouro' => $request->logradouro,
+                'numero' => $request->numero,
+                'cidade' => $request->cidade,
+                'telefone' => $request->telefone,
                 'user_id' => auth()->user()->id
             ]);
             if($res){
-                return Controller::retornarConteudo('Dados de '.$attrs['nome'].' atualizados com sucesso!',$cliente,200);
+                return Controller::retornarConteudo('Dados de '.$request->nome.' atualizados com sucesso!',$cliente,200);
             }
         }else{
             return Controller::retornarConteudo('Erro ao atualizar os dados de '.$cliente->nome,null,406);
