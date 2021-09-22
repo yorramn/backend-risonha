@@ -68,11 +68,12 @@ class ClienteController extends Controller
                 'nome' => 'string',
                 'cpf' => 'string',
                 'email' => 'email',
-                'cep' => 'required',
+                'cep' => 'string',
                 'logradouro' => 'string',
-                'numero' => 'min:1',
-                'cidade' => 'min:2',
-                'telefone' => 'min:10|max:11',
+                'numero' => 'integer',
+                'cidade' => 'string',
+                'telefone' => 'integer',
+
             ]);
             $cliente->update([
                 'nome' => $attrs['nome'],
