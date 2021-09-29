@@ -55,10 +55,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => '/categoria'], function () {
         Route::get('/', [CategoriaController::class, 'index'])->middleware('permission:mostrar categorias');
-        Route::get('/{id}', [CategoriaController::class, 'show'])->middleware('permission:mostrar categoria');
-        Route::post('/', [CategoriaController::class, 'store'])->middleware('permission:cadastrar categoria');
-        Route::put('/{id}', [CategoriaController::class, 'update'])->middleware('permission:editar categoria');
-        Route::delete('/{id}', [CategoriaController::class, 'destroy'])->middleware('permission:excluir categoria');
+        Route::get('/show/{id}', [CategoriaController::class, 'show'])->middleware('permission:mostrar categoria');
+        Route::post('/create', [CategoriaController::class, 'store'])->middleware('permission:cadastrar categoria');
+        Route::put('/update/{id}', [CategoriaController::class, 'update'])->middleware('permission:editar categoria');
+        Route::delete('/destroy/{id}', [CategoriaController::class, 'destroy'])->middleware('permission:excluir categoria');
     });
 
     Route::group(['prefix' => '/produto'], function () {
