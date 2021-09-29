@@ -52,11 +52,10 @@ Route::group(['prefix' => '/permission'], function () {
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
-
     Route::group(['prefix' => '/categoria'], function () {
         Route::get('', [CategoriaController::class, 'index'])->middleware('permission:mostrar categorias');
         Route::post('', [CategoriaController::class, 'store'])->middleware('permission:cadastrar categoria');
-        Route::group(['prefix' => '{id}'], function(){
+        Route::group(['prefix' => '{id}'], function () {
             Route::get('', [CategoriaController::class, 'show'])->middleware('permission:mostrar categoria');
             Route::put('', [CategoriaController::class, 'update'])->middleware('permission:editar categoria');
             Route::delete('', [CategoriaController::class, 'destroy'])->middleware('permission:excluir categoria');
@@ -64,45 +63,51 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['prefix' => '/produto'], function () {
-        Route::get('/', [ProdutoController::class, 'index'])->middleware('permission:mostrar produtos');
-        Route::get('/{id}', [ProdutoController::class, 'show'])->middleware('permission:mostrar produto');
-        Route::post('/', [ProdutoController::class, 'store'])->middleware('permission:cadastrar produto');
-        Route::put('/{id}', [ProdutoController::class, 'update'])->middleware('permission:editar produto');
-        Route::delete('/{id}', [ProdutoController::class, 'destroy'])->middleware('permission:excluir produto');
+        Route::group(['prefix' => '{id}'], function () {
+            Route::get('', [ProdutoController::class, 'show'])->middleware('permission:mostrar produto');
+            Route::put('', [ProdutoController::class, 'update'])->middleware('permission:editar produto');
+            Route::delete('', [ProdutoController::class, 'destroy'])->middleware('permission:excluir produto');
+        });
+        Route::get('', [ProdutoController::class, 'index'])->middleware('permission:mostrar produtos');
+        Route::post('', [ProdutoController::class, 'store'])->middleware('permission:cadastrar produto');
     });
 
     Route::group(['prefix' => '/cliente'], function () {
-        Route::get('/', [ClienteController::class, 'index'])->middleware('permission:mostrar clientes');
-        Route::get('/{id}', [ClienteController::class, 'show'])->middleware('permission:mostrar cliente');
-        Route::post('/', [ClienteController::class, 'store'])->middleware('permission:cadastrar cliente');
-        Route::put('/{id}', [ClienteController::class, 'update'])->middleware('permission:editar cliente');
-        Route::post('/{id}', [ClienteController::class, 'atualizar'])->middleware('permission:editar cliente');
-        Route::delete('/{id}', [ClienteController::class, 'destroy'])->middleware('permission:excluir cliente');
+        Route::group(['prefix' => '{id}'], function(){
+            Route::get('', [ClienteController::class, 'show'])->middleware('permission:mostrar cliente');
+            Route::put('', [ClienteController::class, 'update'])->middleware('permission:editar cliente');
+            Route::post('', [ClienteController::class, 'atualizar'])->middleware('permission:editar cliente');
+            Route::delete('', [ClienteController::class, 'destroy'])->middleware('permission:excluir cliente');
+        });
+        Route::get('', [ClienteController::class, 'index'])->middleware('permission:mostrar clientes');
+        Route::post('', [ClienteController::class, 'store'])->middleware('permission:cadastrar cliente');
     });
 
     Route::group(['prefix' => '/promocao'], function () {
-        Route::get('/', [PromocaoController::class, 'index'])->middleware('permission:mostrar promocaos');
-        Route::get('/{id}', [PromocaoController::class, 'show'])->middleware('permission:mostrar promocao');
-        Route::post('/', [PromocaoController::class, 'store'])->middleware('permission:cadastrar promocao');
-        Route::put('/{id}', [PromocaoController::class, 'update'])->middleware('permission:editar promocao');
-        Route::delete('/{id}', [PromocaoController::class, 'destroy'])->middleware('permission:excluir promocao');
+        Route::group(['prefix' => '{id}'], function(){
+            Route::get('', [PromocaoController::class, 'show'])->middleware('permission:mostrar promocao');
+            Route::put('', [PromocaoController::class, 'update'])->middleware('permission:editar promocao');
+            Route::delete('', [PromocaoController::class, 'destroy'])->middleware('permission:excluir promocao');
+        });
+        Route::get('', [PromocaoController::class, 'index'])->middleware('permission:mostrar promocaos');
+        Route::post('', [PromocaoController::class, 'store'])->middleware('permission:cadastrar promocao');
     });
 
     Route::group(['prefix' => '/venda'], function () {
-        Route::get('/', [VendaController::class, 'index'])->middleware('permission:mostrar vendas');
-        Route::get('/{id}', [VendaController::class, 'show'])->middleware('permission:mostrar venda');
-        Route::post('/', [VendaController::class, 'store'])->middleware('permission:cadastrar venda');
-        Route::put('/{id}', [VendaController::class, 'update'])->middleware('permission:atualizar venda');
+        Route::group(['prefix' => '{id}'], function(){
+            Route::get('', [VendaController::class, 'show'])->middleware('permission:mostrar venda');
+            Route::put('', [VendaController::class, 'update'])->middleware('permission:atualizar venda');
+        });
+        Route::get('', [VendaController::class, 'index'])->middleware('permission:mostrar vendas');
+        Route::post('', [VendaController::class, 'store'])->middleware('permission:cadastrar venda');
     });
 
     Route::group(['prefix' => '/encomenda'], function () {
-        Route::get('/', [EncomendaController::class, 'index'])->middleware('permission:mostrar encomendas');
-        Route::get('/{id}', [EncomendaController::class, 'show'])->middleware('permission:mostrar encomenda');
-        Route::post('/', [EncomendaController::class, 'store'])->middleware('permission:cadastrar encomendas');
-        Route::put('/{id}', [EncomendaController::class, 'update'])->middleware('permission:atualizar encomendas');
+        Route::group(['prefix' => '{id}'], function(){
+            Route::get('', [EncomendaController::class, 'show'])->middleware('permission:mostrar encomenda');
+            Route::put('', [EncomendaController::class, 'update'])->middleware('permission:atualizar encomendas');
+        });
+        Route::get('', [EncomendaController::class, 'index'])->middleware('permission:mostrar encomendas');
+        Route::post('', [EncomendaController::class, 'store'])->middleware('permission:cadastrar encomendas');
     });
-
 });
-
-
-
