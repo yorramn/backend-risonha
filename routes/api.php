@@ -42,10 +42,12 @@ Route::group(['prefix' => '/role'], function () {
 });
 Route::group(['prefix' => '/permission'], function () {
     Route::get('/', [PermissionController::class, 'index']);
-    Route::get('/{id}', [PermissionController::class, 'show']);
-    Route::post('/', [PermissionController::class, 'store']);
-    Route::put('/{id}', [PermissionController::class, 'update']);
-    Route::delete('/{id}', [PermissionController::class, 'destroy']);
+    Route::post('', [PermissionController::class, 'store']);
+    Route::group(['prefix' => '{id}'], function(){
+        Route::get('', [PermissionController::class, 'show']);
+        Route::put('', [PermissionController::class, 'update']);
+        Route::delete('', [PermissionController::class, 'destroy']);
+    });
 });
 
 
