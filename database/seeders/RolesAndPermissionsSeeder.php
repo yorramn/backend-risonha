@@ -62,8 +62,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $user = User::create([
             'name' => 'admin',
             'email' => 'admin@admin.com',
-            'password' => '12345678',
-            'password_confirmation' => '12345678'
+            'password' => '12345678'
         ]);
 
         // this can be done as separate statements
