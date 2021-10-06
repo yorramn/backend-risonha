@@ -20,13 +20,9 @@ class CategoriaController extends Controller
     public function index()
     {
         if(count(Categoria::all()) > 0){
-            return response([
-                'categorias' => Categoria::all()
-            ],200);
+            return $this->retorno(null,200,Categoria::all());
         }else{
-            return response([
-                'mensagem'=>'Não há categorias cadastradas'
-            ],500);
+            return $this->retorno('Não há categorias cadastradas',406,null);
         }
 
     }
