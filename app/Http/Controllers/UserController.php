@@ -118,7 +118,7 @@ class UserController extends Controller
             return Controller::retornarConteudo('Cargo não encontrado!', null, 406);
         } else {
             $usuario->assignRole($cargo);
-            return Controller::retornarConteudo('Cargo de' . $cargo->name . ' atribuido ao usuario ' . $usuario->name, $usuario, 200);
+            return Controller::retornarConteudo('Cargo de ' . $cargo->name . ' atribuido ao usuario ' . $usuario->name, $usuario, 200);
         }
     }
 }

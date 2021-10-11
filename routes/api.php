@@ -60,7 +60,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::group(['prefix' => '{id}'], function () {
             Route::get('', [CategoriaController::class, 'show'])->middleware('permission:visualizar categoria');
             Route::put('', [CategoriaController::class, 'update'])->middleware('permission:editar categoria');
-            Route::delete('', [CategoriaController::class, 'destroy'])->middleware('permission:excluir categoria');
+            Route::delete('', [CategoriaController::class, 'destroy'])->middleware('permission:deletar categoria');
         });
     });
 
@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::group(['prefix' => '{id}'], function () {
             Route::get('', [ProdutoController::class, 'show'])->middleware('permission:visualizar produto');
             Route::put('', [ProdutoController::class, 'update'])->middleware('permission:editar produto');
-            Route::delete('', [ProdutoController::class, 'destroy'])->middleware('permission:excluir produto');
+            Route::delete('', [ProdutoController::class, 'destroy'])->middleware('permission:deletar produto');
         });
         Route::get('', [ProdutoController::class, 'index'])->middleware('permission:visualizar produtos');
         Route::post('', [ProdutoController::class, 'store'])->middleware('permission:cadastrar produto');
@@ -79,7 +79,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
             Route::get('', [ClienteController::class, 'show'])->middleware('permission:visualizar cliente');
             Route::put('', [ClienteController::class, 'update'])->middleware('permission:editar cliente');
             Route::post('', [ClienteController::class, 'atualizar'])->middleware('permission:editar cliente');
-            Route::delete('', [ClienteController::class, 'destroy'])->middleware('permission:excluir cliente');
+            Route::delete('', [ClienteController::class, 'destroy'])->middleware('permission:deletar cliente');
         });
         Route::get('', [ClienteController::class, 'index'])->middleware('permission:visualizar clientes');
         Route::post('', [ClienteController::class, 'store'])->middleware('permission:cadastrar cliente');
@@ -89,7 +89,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::group(['prefix' => '{id}'], function(){
             Route::get('', [PromocaoController::class, 'show'])->middleware('permission:visualizar promocao');
             Route::put('', [PromocaoController::class, 'update'])->middleware('permission:editar promocao');
-            Route::delete('', [PromocaoController::class, 'destroy'])->middleware('permission:excluir promocao');
+            Route::delete('', [PromocaoController::class, 'destroy'])->middleware('permission:deletar promocao');
         });
         Route::get('', [PromocaoController::class, 'index'])->middleware('permission:visualizar promocaos');
         Route::post('', [PromocaoController::class, 'store'])->middleware('permission:cadastrar promocao');

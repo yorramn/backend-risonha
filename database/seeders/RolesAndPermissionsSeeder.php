@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -59,16 +60,73 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'visualizar encomenda']);
         Permission::create(['name' => 'visualizar encomendas']);
 
-        $user = User::create([
-            'name' => 'admin',
-            'email' => 'admin@admin.com',
-            'password' => '12345678'
+        // this can be done as separate statements
+        $adminRole = Role::create(['name' => 'admin']);
+        $adminRole->givePermissionTo(Permission::all());
+
+        $estoquistaRole = Role::create(['name' => 'estoquista']);
+        $estoquistaRole->givePermissionTo([
+            'cadastrar produto',
+            'editar produto',
+            'visualizar produto',
+            'visualizar produtos',
+
+            'cadastrar categoria',
+            'editar categoria',
+            'visualizar categoria',
+            'visualizar categorias',
         ]);
 
-        // this can be done as separate statements
-        $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo(Permission::all());
+        $balconistaRole = Role::create(['name' => 'balconista']);
+        $balconistaRole->givePermissionTo([
+            'cadastrar venda',
+            'editar venda',
+            'visualizar venda',
+            'visualizar vendas',
 
-        $user->assignRole('admin');
+            'cadastrar encomenda',
+            'editar encomenda',
+            'visualizar encomenda',
+            'visualizar encomendas',
+
+            'cadastrar promocao',
+            'editar promocao',
+            'visualizar promocao',
+            'visualizar promocaos',
+
+            'cadastrar cliente',
+            'editar cliente',
+            'visualizar cliente',
+            'visualizar clientes',
+        ]);
+
+
+        User::insert([
+            'name' => 'admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('12345678')
+        ]);
+
+        User::insert([
+            'name' => 'estoquista',
+            'email' => 'estoquista@estoquista.com',
+            'password' => bcrypt('12345678')
+        ]);
+
+        User::insert([
+            'name' => 'balconista',
+            'email' => 'balconista@balconista.com',
+            'password' => bcrypt('12345678')
+        ]);
+
+        $admin = User::where('name','admin')->get()->first();
+        $admin->assignRole($adminRole);
+
+        $estoquista = User::where('name','estoquista')->get()->first();
+        $estoquista->assignRole($estoquistaRole);
+
+
+        $balconista = User::where('name','balconista')->get()->first();
+        $balconista->assignRole($balconistaRole);
     }
 }
