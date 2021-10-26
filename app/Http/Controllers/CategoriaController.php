@@ -22,7 +22,7 @@ class CategoriaController extends Controller
         if(count(Categoria::all()) > 0){
             return $this->retorno(null,200,Categoria::all());
         }else{
-            return $this->retorno('Não há categorias cadastradas',406,null);
+            return $this->retorno('Não há categorias cadastradas',305,null);
         }
 
     }
