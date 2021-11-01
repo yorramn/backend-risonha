@@ -56,7 +56,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/logout', [UserController::class, 'logout']);
 
-    Route::group(['prefix' => '/categoria'], function () {
+    Route::group(['prefix' => 'categoria'], function () {
         Route::get('', [CategoriaController::class, 'index'])->middleware('permission:visualizar categorias');
         Route::post('', [CategoriaController::class, 'store'])->middleware('permission:cadastrar categoria');
         Route::group(['prefix' => '{id}'], function () {
