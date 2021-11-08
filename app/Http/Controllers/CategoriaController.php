@@ -55,6 +55,21 @@ class CategoriaController extends Controller
             return Controller::retornarConteudo('Categoria não encontrada!', null, 402);
         }
     }
+    public function showXml($id)
+    {
+        $data = Categoria::find($id);
+        if($data){
+            $response = null;
+                $response .= "<categoria>";
+                $response .= "<id>".$data->id."</id>";
+                $response .= "<nome>".$data->nome."</nome>";
+                $response .= "<descricao>".$data->descricao."</descricao>";
+                $response .= "</categoria>";
+            return response($response)->header('Content-Type','application/xml');
+        }else{
+            return Controller::retornarConteudo('Categoria não encontrada!',null,200);
+        }
+    }
 
     public function update(Request $request, $id)
     {
@@ -83,7 +98,7 @@ class CategoriaController extends Controller
                 $categoria->delete();
                 return Controller::retornarConteudo('Categoria deletada com sucesso',$categoria,200);
             } catch (Exception $e) {
-                return Controller::retornarConteudo('Categoria não pôde ser removida pois está atrelada a algum produto!', null, 422);
+                return Controller::retornarConteudo('Categoria não pôde ser removida pois está atrelada a algum produto!', null, 200);
             }
         } else {
             return Controller::retornarConteudo('Categoria não encontrada', null, 402);

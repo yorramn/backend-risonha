@@ -59,6 +59,27 @@ class ClienteController extends Controller
             return Controller::retornarConteudo('Não há ninguém com este cpf cadastrado',null,200);
         }
     }
+    public function showXml($id)
+    {
+        $data = Cliente::find($id);
+        if($data){
+            $response = null;
+                $response .= "<cliente>";
+                $response .= "<id>".$data->id."</id>";
+                $response .= "<nome>".$data->nome."</nome>";
+                $response .= "<email>".$data->email."</email>";
+                $response .= "<cpf>".$data->cpf."</cpf>";
+                $response .= "<cep>".$data->cep."</cep>";
+                $response .= "<logradouro>".$data->logradouro."</logradouro>";
+                $response .= "<numero>".$data->numero."</numero>";
+                $response .= "<cidade>".$data->cidade."</cidade>";
+                $response .= "<telefone>".$data->telefone."</telefone>";
+                $response .= "</cliente>";
+            return response($response)->header('Content-Type','application/xml');
+        }else{
+            return Controller::retornarConteudo('Não há ninguém com este cpf cadastrado',null,200);
+        }
+    }
 
     public function update(Request $request, $id)
     {

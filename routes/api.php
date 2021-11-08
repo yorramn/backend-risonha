@@ -114,4 +114,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('', [EncomendaController::class, 'index'])->middleware('permission:visualizar encomendas');
         Route::post('', [EncomendaController::class, 'store'])->middleware('permission:cadastrar encomendas');
     });
+    Route::group(['prefix' => 'xml'], function(){
+            Route::get('/cliente/{id}', [ClienteController::class, 'showXml'])->middleware('permission:visualizar cliente');
+            Route::get('/categoria/{id}', [CategoriaController::class, 'showXml'])->middleware('permission:visualizar categoria');
+    });
 });
