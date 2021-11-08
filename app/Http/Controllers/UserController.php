@@ -60,7 +60,7 @@ class UserController extends Controller
         if (!Auth::attempt($attrs)) {
             return response([
                 'message' => 'Credenciais inválidas',
-            ], 403);
+            ], 200);
         } else {
             return response([
                 'user' => auth()->user(),
