@@ -89,7 +89,7 @@ class EncomendaController extends Controller
             'data_de_recebimento' => 'date|required'
         ]);
         if (!$this->subProduct($attrs)) {
-            return Controller::retornarConteudo('Erro! Não produto com estoque menor ou igual à quantidade requisitada', null, 500);
+            return Controller::retornarConteudo('Erro! Produto com estoque menor ou igual à quantidade requisitada', null, 406);
         } else {
             if ($promocao != null && $cliente != null) {
                 if (!isset($promocao)) {

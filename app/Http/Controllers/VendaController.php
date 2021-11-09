@@ -88,7 +88,7 @@ class VendaController extends Controller
             'total' => 'numeric|required',
         ]);
         if (!$this->subProduct($attrs)) {
-            return Controller::retornarConteudo('Erro! Não produto com estoque menor ou igual à quantidade requisitada', null, 406);
+            return Controller::retornarConteudo('Erro! Produto com estoque menor ou igual à quantidade requisitada', null, 406);
         } else {
             if ($promocao != null && $cliente != null) {
                 if (!isset($promocao)) {
