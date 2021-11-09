@@ -109,10 +109,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => '/encomenda'], function () {
         Route::group(['prefix' => '{id}'], function(){
             Route::get('', [EncomendaController::class, 'show'])->middleware('permission:visualizar encomenda');
-            Route::put('', [EncomendaController::class, 'update'])->middleware('permission:atualizar encomendas');
+            Route::put('', [EncomendaController::class, 'update'])->middleware('permission:atualizar encomenda');
         });
         Route::get('', [EncomendaController::class, 'index'])->middleware('permission:visualizar encomendas');
-        Route::post('', [EncomendaController::class, 'store'])->middleware('permission:cadastrar encomendas');
+        Route::post('', [EncomendaController::class, 'store'])->middleware('permission:cadastrar encomenda');
     });
     Route::group(['prefix' => 'xml'], function(){
             Route::get('/cliente/{id}', [ClienteController::class, 'showXml'])->middleware('permission:visualizar cliente');
