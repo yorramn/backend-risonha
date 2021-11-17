@@ -93,7 +93,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['prefix' => '/promocao'], function () {
-        Route::get('/listar/{nome?}', [PromocaoController::class, 'index'])->middleware('permission:visualizar promocaos');
+        Route::get('/listar/{codigo?}', [PromocaoController::class, 'index'])->middleware('permission:visualizar promocaos');
         Route::post('', [PromocaoController::class, 'store'])->middleware('permission:cadastrar promocao');
         Route::group(['prefix' => '{id}'], function(){
             Route::get('', [PromocaoController::class, 'show'])->middleware('permission:visualizar promocao');
