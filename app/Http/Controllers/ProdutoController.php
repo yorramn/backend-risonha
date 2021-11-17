@@ -8,16 +8,19 @@ use Illuminate\Http\Request;
 class ProdutoController extends Controller
 {
 
-    public function index()
+    public function index(string $nome = null)
     {
         if(count(Produto::all()) > 0){
-            return response([
-                'produtos'=>Produto::all()
-            ],200);
+            if ($nome != null) {
+                $produtos = Produto::where([
+                    ['nome','LIKE','%'.$nome.'%']
+                ])->get();
+                return Controller::retornarConteudo(null, $produtos, 200);
+            } else {
+                return Controller::retornarConteudo(null, Produto::all(), 200);
+            }
         }else{
-            return response([
-                'mensagem'=>'Não há produtos cadastrados'
-            ],500);
+            return Controller::retornarConteudo('Não há produtos cadastrados no sistema', null, 200);
         }
     }
 
