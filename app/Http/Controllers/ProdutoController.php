@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ProdutoController extends Controller
 {
@@ -21,7 +20,7 @@ class ProdutoController extends Controller
                 return Controller::retornarConteudo(null, Produto::all(), 200);
             }
         }else{
-            return Controller::retornarConteudo('Não há produtos cadastrados no sistema', null, 200);
+            return Controller::retornarConteudo('Não há produtos cadastrados com este nome', null, 200);
         }
     }
 
@@ -80,9 +79,7 @@ class ProdutoController extends Controller
      */
     public function show($id)
     {
-        $produto = DB::table('produtos')->join('categorias', function($join){
-            $join->on('produtos.categoria_id','=','categorias.id');
-        })->where('produtos.id',$id)->get();
+        $produto = Produto::find($id);
         if(isset($produto)){
             return Controller::retornarConteudo(null,$produto,200);
         }else{
