@@ -21,7 +21,7 @@ class PromocaoController extends Controller
                 return Controller::retornarConteudo(null, $promocaos, 200);
             }
         }else{
-            return Controller::retornarConteudo('Não há promoções cadastradas no momento',null,406);
+            return Controller::retornarConteudo('Não há promoções cadastradas no momento',null,200);
         }
     }
 
