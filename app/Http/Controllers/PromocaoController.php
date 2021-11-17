@@ -8,11 +8,18 @@ use Illuminate\Http\Request;
 class PromocaoController extends Controller
 {
 
-    public function index()
+    public function index(string $nome = null)
     {
-        $promocao = Promocao::all();
-        if(count($promocao) > 0){
-            return Controller::retornarConteudo(null,$promocao,200);
+        $promocaos = Promocao::all();
+        if(count($promocaos) > 0){
+            if ($nome != null) {
+                $promocao = Promocao::where([
+                    ['nome','LIKE','%'.$nome.'%']
+                ])->get();
+                return Controller::retornarConteudo(null, $promocao, 200);
+            } else {
+                return Controller::retornarConteudo(null, $promocaos, 200);
+            }
         }else{
             return Controller::retornarConteudo('Nâo há promoções cadastradas no momento',null,406);
         }

@@ -82,24 +82,24 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['prefix' => '/cliente'], function () {
+        Route::get('/listar/{nome?}', [ClienteController::class, 'index'])->middleware('permission:visualizar clientes');
+        Route::post('', [ClienteController::class, 'store'])->middleware('permission:cadastrar cliente');
         Route::group(['prefix' => '{id}'], function(){
             Route::get('', [ClienteController::class, 'show'])->middleware('permission:visualizar cliente');
             Route::put('', [ClienteController::class, 'update'])->middleware('permission:editar cliente');
             Route::post('', [ClienteController::class, 'atualizar'])->middleware('permission:editar cliente');
             Route::delete('', [ClienteController::class, 'destroy'])->middleware('permission:deletar cliente');
         });
-        Route::get('/listar/{nome?}', [ClienteController::class, 'index'])->middleware('permission:visualizar clientes');
-        Route::post('', [ClienteController::class, 'store'])->middleware('permission:cadastrar cliente');
     });
 
     Route::group(['prefix' => '/promocao'], function () {
+        Route::get('/listar/{nome?}', [PromocaoController::class, 'index'])->middleware('permission:visualizar promocaos');
+        Route::post('', [PromocaoController::class, 'store'])->middleware('permission:cadastrar promocao');
         Route::group(['prefix' => '{id}'], function(){
             Route::get('', [PromocaoController::class, 'show'])->middleware('permission:visualizar promocao');
             Route::put('', [PromocaoController::class, 'update'])->middleware('permission:editar promocao');
             Route::delete('', [PromocaoController::class, 'destroy'])->middleware('permission:deletar promocao');
         });
-        Route::get('/listar/{nome?}', [PromocaoController::class, 'index'])->middleware('permission:visualizar promocaos');
-        Route::post('', [PromocaoController::class, 'store'])->middleware('permission:cadastrar promocao');
     });
 
     Route::group(['prefix' => '/venda'], function () {
