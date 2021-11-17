@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class ClienteController extends Controller
 {
-    public function index()
+    public function index(string $nome = null)
     {
-        $cliente = Cliente::all();
-        if(count($cliente) > 0){
-            return Controller::retornarConteudo(null,$cliente,200);
+        if(count(Cliente::all()) > 0){
+            if ($nome != null) {
+                $clientes = Cliente::where([
+                    ['nome','LIKE','%'.$nome.'%']
+                ])->get();
+                return Controller::retornarConteudo(null, $clientes, 200);
+            } else {
+                return Controller::retornarConteudo(null, Cliente::all(), 200);
+            }
         }else{
             return Controller::retornarConteudo('Não há clientes cadastrados',null,200);
         }
