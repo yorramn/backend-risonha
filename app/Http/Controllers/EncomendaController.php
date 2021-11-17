@@ -77,8 +77,12 @@ class EncomendaController extends Controller
     public function store(Request $request)
     {
         //Variáveis
-        $promocao = Promocao::where('codigo', $request->codigo_promocao)->get()->first();
-        $cliente = Cliente::where('cpf', $request->cpf_cliente)->get()->first();
+        $promocao = Promocao::
+        where('codigo', $request->codigo_promocao)
+        ->get()->first();
+        $cliente = Cliente::
+        where('cpf', $request->cpf_cliente)
+        ->get()->first();
         $attrs = $request->validate([
             'codigos' => 'array|required',
             'nomes' => 'array|required',
@@ -89,7 +93,10 @@ class EncomendaController extends Controller
             'data_de_recebimento' => 'date|required'
         ]);
         if (!$this->subProduct($attrs)) {
-            return Controller::retornarConteudo('Erro! Produto com estoque menor ou igual à quantidade requisitada', null, 406);
+            return Controller::
+            retornarConteudo(
+                'Erro! Produto com estoque menor ou igual à quantidade requisitada'
+                , null, 406);
         } else {
             if ($promocao != null && $cliente != null) {
                 if (!isset($promocao)) {

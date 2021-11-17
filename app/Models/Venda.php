@@ -15,7 +15,18 @@ class Venda extends Model
         'quantidade_itens' => 'array'
     ];
 
-    protected $fillable = ['id','codigos','nomes','precos','quantidade_itens','total','nota_fiscal','user_id','promocao_id','cliente_id'];
+    protected $fillable = [
+        'id',
+        'codigos',
+        'nomes',
+        'precos',
+        'quantidade_itens',
+        'total',
+        'nota_fiscal',
+        'user_id',
+        'promocao_id',
+        'cliente_id'
+    ];
 
     public function user(){
         return $this->belongsTo('App\Models\User');

@@ -19,10 +19,17 @@ class CategoriaController extends Controller
         ], $status);
     }
 
-    public function index()
+    public function index(string $nome = null)
     {
         if (count(Categoria::all()) > 0) {
-            return $this->retorno(null, 200, Categoria::all());
+            if ($nome != null) {
+                $catagorias = Categoria::where([
+                    ['nome','LIKE','%'.$nome.'%']
+                ])->get();
+                return $this->retorno(null, 200, $catagorias);
+            } else {
+                return $this->retorno(null, 200,Categoria::all());
+            }
         } else {
             return $this->retorno('Não há categorias cadastradas', 200, null);
         }
@@ -58,16 +65,16 @@ class CategoriaController extends Controller
     public function showXml($id)
     {
         $data = Categoria::find($id);
-        if($data){
+        if ($data) {
             $response = null;
-                $response .= "<categoria>";
-                $response .= "<id>".$data->id."</id>";
-                $response .= "<nome>".$data->nome."</nome>";
-                $response .= "<descricao>".$data->descricao."</descricao>";
-                $response .= "</categoria>";
-            return response($response)->header('Content-Type','application/xml');
-        }else{
-            return Controller::retornarConteudo('Categoria não encontrada!',null,200);
+            $response .= "<categoria>";
+            $response .= "<id>" . $data->id . "</id>";
+            $response .= "<nome>" . $data->nome . "</nome>";
+            $response .= "<descricao>" . $data->descricao . "</descricao>";
+            $response .= "</categoria>";
+            return response($response)->header('Content-Type', 'application/xml');
+        } else {
+            return Controller::retornarConteudo('Categoria não encontrada!', null, 200);
         }
     }
 
@@ -96,7 +103,7 @@ class CategoriaController extends Controller
         if (isset($categoria)) {
             try {
                 $categoria->delete();
-                return Controller::retornarConteudo('Categoria deletada com sucesso',$categoria,200);
+                return Controller::retornarConteudo('Categoria deletada com sucesso', $categoria, 200);
             } catch (Exception $e) {
                 return Controller::retornarConteudo('Categoria não pôde ser removida pois está atrelada a algum produto!', null, 200);
             }
