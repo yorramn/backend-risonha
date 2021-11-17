@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProdutoController extends Controller
 {
@@ -79,7 +80,9 @@ class ProdutoController extends Controller
      */
     public function show($id)
     {
-        $produto = Produto::find($id);
+        $produto = DB::table('produtos')->join('categorias', function($join){
+            $join->on('produtos.categoria_id','=','categorias.id');
+        })->where('produtos.id',$id)->get();
         if(isset($produto)){
             return Controller::retornarConteudo(null,$produto,200);
         }else{
