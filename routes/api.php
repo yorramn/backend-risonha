@@ -72,13 +72,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['prefix' => '/produto'], function () {
+        Route::get('/listar/{nome?}', [ProdutoController::class, 'index'])->middleware('permission:visualizar produtos');
+        Route::post('', [ProdutoController::class, 'store'])->middleware('permission:cadastrar produto');
         Route::group(['prefix' => '{id}'], function () {
             Route::get('', [ProdutoController::class, 'show'])->middleware('permission:visualizar produto');
             Route::put('', [ProdutoController::class, 'update'])->middleware('permission:editar produto');
             Route::delete('', [ProdutoController::class, 'destroy'])->middleware('permission:deletar produto');
         });
-        Route::get('/listar/{nome?}', [ProdutoController::class, 'index'])->middleware('permission:visualizar produtos');
-        Route::post('', [ProdutoController::class, 'store'])->middleware('permission:cadastrar produto');
     });
 
     Route::group(['prefix' => '/cliente'], function () {
