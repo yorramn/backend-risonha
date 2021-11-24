@@ -48,12 +48,12 @@ class EncomendaController extends Controller
                 $encomendas = Encomenda::where([
                     ['nota_fiscal','LIKE','%'.$nota_fiscal.'%']
                 ])->get();
-                return $this->retorno(null, 200, $encomendas);
+                return Controller::retornarConteudo(null, $encomendas, 200);
             } else {
-                return $this->retorno(null, 200,Encomenda::all());
+                return Controller::retornarConteudo(null, Encomenda::all(), 200);
             }
         } else {
-            return $this->retorno('Não há encomendas cadastradas', 200, null);
+            return Controller::retornarConteudo('Não existem encomendas cadastradas', null, 200);
         }
     }
     private function subProduct(array $values)

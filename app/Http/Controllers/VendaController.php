@@ -49,12 +49,12 @@ class VendaController extends Controller
                 $vendas = Venda::where([
                     ['nota_fiscal','LIKE','%'.$nota_fiscal.'%']
                 ])->get();
-                return $this->retorno(null, 200, $vendas);
+                return Controller::retornarConteudo(null, $vendas, 200);
             } else {
-                return $this->retorno(null, 200,Venda::all());
+                return Controller::retornarConteudo(null, Venda::all(), 200);
             }
         } else {
-            return $this->retorno('Não há vendas cadastradas', 200, null);
+            return Controller::retornarConteudo('Não existem encomendas cadastradas', null, 200);
         }
     }
     private function subProduct(array $values)
