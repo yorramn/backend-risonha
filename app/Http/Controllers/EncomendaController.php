@@ -43,11 +43,17 @@ class EncomendaController extends Controller
 
     public function index()
     {
-        $encomendas = Encomenda::all();
-        if (count($encomendas) > 0) {
-            return Controller::retornarConteudo(null, $encomendas, 200);
+        if (count(Encomenda::all()) > 0) {
+            if ($nota_fiscal != null) {
+                $encomendas = Encomenda::where([
+                    ['nota_fiscal','LIKE','%'.$nota_fiscal.'%']
+                ])->get();
+                return $this->retorno(null, 200, $encomendas);
+            } else {
+                return $this->retorno(null, 200,Encomenda::all());
+            }
         } else {
-            return Controller::retornarConteudo('Não há encomendas registradas', null, 500);
+            return $this->retorno('Não há encomendas cadastradas', 200, null);
         }
     }
     private function subProduct(array $values)

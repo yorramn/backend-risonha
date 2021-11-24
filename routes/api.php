@@ -103,21 +103,21 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::group(['prefix' => '/venda'], function () {
+        Route::get('/listar/{nota_fiscal?}', [VendaController::class, 'index'])->middleware('permission:visualizar vendas');
+        Route::post('', [VendaController::class, 'store'])->middleware('permission:cadastrar venda');
         Route::group(['prefix' => '{id}'], function(){
             Route::get('', [VendaController::class, 'show'])->middleware('permission:visualizar venda');
             Route::put('', [VendaController::class, 'update'])->middleware('permission:atualizar venda');
         });
-        Route::get('', [VendaController::class, 'index'])->middleware('permission:visualizar vendas');
-        Route::post('', [VendaController::class, 'store'])->middleware('permission:cadastrar venda');
     });
 
     Route::group(['prefix' => '/encomenda'], function () {
+        Route::get('/listar/{nota_fiscal?}', [EncomendaController::class, 'index'])->middleware('permission:visualizar encomendas');
+        Route::post('', [EncomendaController::class, 'store'])->middleware('permission:cadastrar encomenda');
         Route::group(['prefix' => '{id}'], function(){
             Route::get('', [EncomendaController::class, 'show'])->middleware('permission:visualizar encomenda');
             Route::put('', [EncomendaController::class, 'update'])->middleware('permission:atualizar encomenda');
         });
-        Route::get('', [EncomendaController::class, 'index'])->middleware('permission:visualizar encomendas');
-        Route::post('', [EncomendaController::class, 'store'])->middleware('permission:cadastrar encomenda');
     });
     Route::group(['prefix' => 'xml'], function(){
             Route::get('/cliente/{id}', [ClienteController::class, 'showXml'])->middleware('permission:visualizar cliente');

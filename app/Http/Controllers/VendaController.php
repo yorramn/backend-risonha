@@ -42,13 +42,19 @@ class VendaController extends Controller
     }
 
 
-    public function index()
+    public function index(string $nota_fiscal = null)
     {
-        $venda = Venda::all();
-        if (count($venda) > 0) {
-            return Controller::retornarConteudo(null, $venda, 200);
+        if (count(Venda::all()) > 0) {
+            if ($nota_fiscal != null) {
+                $vendas = Venda::where([
+                    ['nota_fiscal','LIKE','%'.$nota_fiscal.'%']
+                ])->get();
+                return $this->retorno(null, 200, $vendas);
+            } else {
+                return $this->retorno(null, 200,Venda::all());
+            }
         } else {
-            return Controller::retornarConteudo('Nenhuma venda fora efetuada no momento!', null, 406);
+            return $this->retorno('Não há vendas cadastradas', 200, null);
         }
     }
     private function subProduct(array $values)
