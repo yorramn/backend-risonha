@@ -89,7 +89,7 @@ class ProdutoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $produto = Produto::findOrFail($id);
+        $produto = Produto::find($id);
         if(isset($produto)){
             $attrs = $request->validate([
                 'codigo' => 'string',
