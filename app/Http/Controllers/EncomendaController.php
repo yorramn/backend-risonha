@@ -41,7 +41,7 @@ class EncomendaController extends Controller
     }
 
 
-    public function index()
+    public function index(string $nota_fiscal = null)
     {
         if (count(Encomenda::all()) > 0) {
             if ($nota_fiscal != null) {
